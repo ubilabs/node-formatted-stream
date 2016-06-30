@@ -1,0 +1,27 @@
+{
+  "name": "formatted-stream",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist",
+  "scripts": {
+    "pretest": "npm run lint",
+    "build": "babel ./src --out-dir ./dist",
+    "lint": "eslint ./src"
+  },
+  "author": {
+    "name": "Keno Schwalb",
+    "email": "schwalb@ubilabs.net",
+    "url": "http://ubilabs.net"
+  },
+  "license": "",
+  "dependencies": {
+    "JSONStream": "^1.1.2",
+    "event-stream": "^3.3.3",
+    "fast-csv": "^2.0.0",
+    "shell-arguments": "^1.1.9"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "eslint": "^1.6.0"
+  }
+}
