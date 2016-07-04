@@ -88,6 +88,8 @@ class XLSXWriter extends stream.Transform {
   }
 
   _transform(chunk, encoding, done) {
+    let object = {};
+
     Object.keys(chunk).forEach(key => {
       if (!this.columns.find(column => column.key === key)) {
         this.columns.push({
@@ -95,9 +97,11 @@ class XLSXWriter extends stream.Transform {
           header: this.headerAccessor(key)
         });
       }
+
+      object[key] = chunk[key].toString();
     });
 
-    this.rows.push(chunk);
+    this.rows.push(object);
     done();
   }
 
