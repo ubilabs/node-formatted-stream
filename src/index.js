@@ -3,8 +3,9 @@ import path from 'path';
 
 import csv from './components/csv';
 import json from './components/json';
+import xlsx from './components/xlsx';
 
-const components = {csv, json};
+const components = {csv, json, xlsx};
 
 /*
  * Attempt to guess the file format from a file name
@@ -40,6 +41,10 @@ function getKnownFormats() {
  **/
 function from(format, options = {}) {
   const component = components[format];
+  if (!component) {
+    throw new Error('Unsupported format: ' + format);
+  }
+
   options.transform = options.transform || (data => data);
   return component.createReadStream(options);
 }
@@ -54,6 +59,10 @@ function from(format, options = {}) {
  **/
 function to(format, options = {}) {
   const component = components[format];
+  if (!component) {
+    throw new Error('Unsupported format: ' + format);
+  }
+
   options.transform = options.transform || (data => data);
   return component.createWriteStream(options);
 }
