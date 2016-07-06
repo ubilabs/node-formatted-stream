@@ -40,14 +40,17 @@ class XLSXParser extends stream.Transform {
     }
 
     const headerRow = worksheet.getRow(1),
-      keys = [];
+      headers = [];
 
     if (!headerRow) {
       return;
     }
 
-    headerRow.eachCell(cell => {
-      keys.push(cell.value);
+    headerRow.eachCell((cell, colNum) => {
+      headers.push({
+        colNum: colNum,
+        key: cell.value
+      });
     });
 
     worksheet.eachRow((row, rowNumber) => {
@@ -57,12 +60,10 @@ class XLSXParser extends stream.Transform {
         return;
       }
 
-      row.eachCell((cell, colNumber) => {
-        if (colNumber > keys.length) {
-          return;
-        }
+      headers.forEach(column => {
+        const cell = row.getCell(column.colNum);
 
-        Object.defineProperty(obj, keys[colNumber - 1], { // eslint-disable-line prefer-reflect, max-len
+        Object.defineProperty(obj, column.key, { // eslint-disable-line prefer-reflect, max-len
           value: cell.value,
           enumerable: true
         });
@@ -98,7 +99,8 @@ class XLSXWriter extends stream.Transform {
         });
       }
 
-      object[key] = chunk[key].toString();
+      // exceljs cannot handle objects
+      object[key] = chunk[key] === null ? '' : chunk[key].toString();
     });
 
     this.rows.push(object);
