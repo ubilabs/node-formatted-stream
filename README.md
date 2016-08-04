@@ -1,7 +1,7 @@
-# node-formatted-stream
+# formatted-stream
 
 A universal wrapper around file format parsers.  
-Currently supports in- and output in CSV and JSON format.
+Currently supports in- and output in CSV, JSON, and XLSX format.
 
 ## Usage
 
@@ -52,20 +52,31 @@ const parser = formattedStream.from('csv', {
 });
 ```
 
-#### transform
+#### format
+
+Type `String`. Must be either *xlsx*, *json*, or *csv*.
+
+#### options.transform
 
 Type `Function`. A transformation function which is applied to each object before `.on('data')` is triggered.  
 Default is `function(data) { return data; }`.
 
-#### csv
+#### options.csv
 
 Type `Object`. An options object which will be passed to the CSV parser. See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
 Default is `{}`.
 
-#### json
+#### options.json
 
 Type `Array`. An options array which will be passed to the JSON parser. See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
 Default is `[]`.
+
+#### options.xlsx
+
+Type `Object`. An options object which will be passed to the XLSX parser.
+Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`. See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
+Default is `{}`.
+
 
 ### .to(format, options)
 
@@ -81,17 +92,27 @@ const writer = formattedStream.to('json', {
 });
 ```
 
-#### transform
+#### format
+
+Type `String`. Must be either *xlsx*, *json*, or *csv*.
+
+#### options.transform
 
 Type `Function`. A transformation function which is applied to each object before `.on('data')` is triggered.  
 Default is `function(data) { return data; }`.
 
-#### csv
+#### options.csv
 
 Type `Object`. An options object which will be passed to the CSV writer. See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
 Default is `{}`.
 
-#### json
+#### options.json
 
-Type `Object`. An options object which will be passed to the JSON writer. You can set the fields `open`, `sep`, and `close`. See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
+Type `Object`. An options object which will be passed to the JSON writer. See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
+Default is `{}`.
+
+#### options.xlsx
+
+Type `Object`. An options object which will be passed to the XLSX writer.
+Assign a function to `options.xlsx.headerAccessor` in order to transform all header fields according to the output of the function. Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`. See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
 Default is `{}`.
