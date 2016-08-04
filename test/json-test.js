@@ -27,6 +27,19 @@ describe('The JSON component', () => {
       jsonStream.write('[{"key1": "value1", "key2": "value2"}]');
       jsonStream.end();
     });
+
+    it('should transform objects if `options.transform` is set', done => {
+      const expectedResult = {newkey: 'newvalue'},
+        jsonStream = json.createReadStream({
+          transform: () => expectedResult
+        });
+
+      jsonStream.on('data', data => expect(data).to.deep.equal(expectedResult));
+      jsonStream.on('end', done);
+
+      jsonStream.write('[{"key1": "value1", "key2": "value2"}]');
+      jsonStream.end();
+    });
   });
 
   describe('.createWriteStream', () => {
@@ -43,6 +56,25 @@ describe('The JSON component', () => {
       jsonStream.on('data', data => resultBuffer += data);
       jsonStream.on('end', () => {
         expect(JSON.parse(resultBuffer)).to.deep.equal([object]);
+        done();
+      });
+
+      jsonStream.write(object);
+      jsonStream.end();
+    });
+
+    it('should transform lines if `options.transform` is set', done => {
+      const expectedObject = {newkey: 'newvalue'},
+        jsonStream = json.createWriteStream({
+          transform: () => expectedObject
+        }),
+        object = {key1: 'value1', key2: 'value2'};
+
+      let resultBuffer = '';
+
+      jsonStream.on('data', data => resultBuffer += data);
+      jsonStream.on('end', () => {
+        expect(JSON.parse(resultBuffer)).to.deep.equal([expectedObject]);
         done();
       });
 

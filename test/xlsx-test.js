@@ -28,6 +28,18 @@ describe('The XLSX component', () => {
       xlsxStream.on('end', done);
       fs.createReadStream(testFilePath).pipe(xlsxStream);
     });
+
+    it('should transform objects if `options.transform` is set', done => {
+      const expectedResult = {newkey: 'newvalue'},
+        xlsxStream = xlsx.createReadStream({
+          transform: () => expectedResult
+        }),
+        testFilePath = path.join(__dirname, 'misc/testobject.xlsx');
+
+      xlsxStream.on('data', data => expect(data).to.deep.equal(expectedResult));
+      xlsxStream.on('end', done);
+      fs.createReadStream(testFilePath).pipe(xlsxStream);
+    });
   });
 
   describe('.createWriteStream', () => {
@@ -42,6 +54,23 @@ describe('The XLSX component', () => {
 
       xlsxReadStream.on('end', done);
       xlsxReadStream.on('data', data => expect(data).to.deep.equal(object));
+
+      xlsxStream.pipe(xlsxReadStream);
+      xlsxStream.write(object);
+      xlsxStream.end();
+    });
+
+    it('should transform lines if `options.transform` is set', done => {
+      const expectedResult = {newkey: 'newvalue'},
+        xlsxStream = xlsx.createWriteStream({
+          transform: () => expectedResult
+        }),
+        xlsxReadStream = xlsx.createReadStream({}),
+        object = {key1: 'value1', key2: 'value2'};
+
+      xlsxReadStream.on('end', done);
+      xlsxReadStream.on('data', data =>
+        expect(data).to.deep.equal(expectedResult));
 
       xlsxStream.pipe(xlsxReadStream);
       xlsxStream.write(object);

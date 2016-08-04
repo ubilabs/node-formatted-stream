@@ -29,6 +29,21 @@ describe('The CSV component', () => {
       csvStream.write('value1,value2');
       csvStream.end();
     });
+
+    it('should transform objects if `options.transform` is set', done => {
+      const expectedResult = {newkey: 'newvalue'},
+        csvStream = csv.createReadStream({
+          transform: () => expectedResult
+        });
+
+      csvStream.on('data', data => expect(data).to.deep.equal(expectedResult));
+      csvStream.on('end', done);
+
+      csvStream.write('key1,key2');
+      csvStream.write('value1,value2');
+      csvStream.write('value1,value2');
+      csvStream.end();
+    });
   });
 
   describe('.createWriteStream', () => {
@@ -65,6 +80,50 @@ describe('The CSV component', () => {
       csvStream.on('data', data => {
         if (counter > 0) {
           expect(data.toString()).to.equal('\nvalue1,value2');
+        }
+
+        counter++;
+      });
+
+      csvStream.write(object);
+      csvStream.write(object);
+      csvStream.end();
+    });
+
+    it('should transform the header if `options.transform` is set', done => {
+      const csvStream = csv.createWriteStream({
+          transform: () => ({newkey: 'newvalue'})
+        }),
+        object = {key1: 'value1', key2: 'value2'};
+
+      let counter = 0;
+
+      csvStream.on('end', done);
+      csvStream.on('data', data => {
+        if (counter === 0) {
+          expect(data.toString()).to.equal('newkey');
+        }
+
+        counter++;
+      });
+
+      csvStream.write(object);
+      csvStream.write(object);
+      csvStream.end();
+    });
+
+    it('should transform the output if `options.transform` is set', done => {
+      const csvStream = csv.createWriteStream({
+          transform: () => ({newkey: 'newvalue'})
+        }),
+        object = {key1: 'value1', key2: 'value2'};
+
+      let counter = 0;
+
+      csvStream.on('end', done);
+      csvStream.on('data', data => {
+        if (counter > 0) {
+          expect(data.toString()).to.equal('\nnewvalue');
         }
 
         counter++;
