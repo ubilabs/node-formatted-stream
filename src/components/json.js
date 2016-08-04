@@ -1,16 +1,19 @@
 import JSONStream from 'JSONStream';
-import es from 'event-stream';
+import {StreamMap} from '../util';
 
 export default {
-  createReadStream: options =>
-    JSONStream.parse(options.json || [true], options.transform),
+  createReadStream: options => {
+    const jsonStream = JSONStream.parse(options.json || [true]);
+    return new StreamMap(options.transform, jsonStream);
+  },
   createWriteStream: options => {
-    const json = options.json || {};
-    return es.mapSync(options.transform)
-      .pipe(JSONStream.stringify(
+    const json = options.json || {},
+      jsonStream = JSONStream.stringify(
         json.open,
         json.sep,
         json.close
-      ));
+      );
+
+    return new StreamMap(options.transform, jsonStream);
   }
 };
