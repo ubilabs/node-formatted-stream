@@ -2,7 +2,7 @@
 import {expect} from 'chai';
 import {default as index} from '../src/index.js';
 
-describe('index', () => {
+describe('The formatted stream module', () => {
   it('should export a `guessFormat` function', () => {
     expect(index.guessFormat).to.be.a('function');
   });
