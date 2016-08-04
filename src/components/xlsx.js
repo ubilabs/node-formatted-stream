@@ -9,13 +9,14 @@ const writerWorkbookOptions = [
 ];
 
 class XLSXParser extends stream.Transform {
-  constructor(options) {
+  constructor(options, transform) {
     super({objectMode: true});
 
     this.workbook = new Excel.Workbook();
     this.stream = this.workbook.xlsx.createInputStream();
     this.ondone = null;
     this.options = options;
+    this.transform = transform;
   }
 
   _transform(chunk, encoding, done) {
@@ -69,13 +70,13 @@ class XLSXParser extends stream.Transform {
         });
       });
 
-      this.push(obj);
+      this.push(this.transform ? this.transform(obj) : obj);
     });
   }
 }
 
 class XLSXWriter extends stream.Transform {
-  constructor(options) {
+  constructor(options, transform) {
     super({objectMode: true});
 
     this.workbook = new Excel.Workbook();
@@ -83,6 +84,7 @@ class XLSXWriter extends stream.Transform {
     this.headerAccessor = options.headerAccessor || (key => key);
     this.rows = [];
     this.columns = [];
+    this.transform = transform;
 
     writerWorkbookOptions.forEach(option =>
       this.workbook[option] = options[option]);
@@ -90,6 +92,10 @@ class XLSXWriter extends stream.Transform {
 
   _transform(chunk, encoding, done) {
     let object = {};
+
+    if (this.transform) {
+      chunk = this.transform(chunk);
+    }
 
     Object.keys(chunk).forEach(key => {
       if (!this.columns.find(column => column.key === key)) {
@@ -120,7 +126,7 @@ class XLSXWriter extends stream.Transform {
 
 export default {
   createReadStream: options =>
-    new XLSXParser(options.xlsx || {}),
+    new XLSXParser(options.xlsx || {}, options.transform),
   createWriteStream: options =>
-    new XLSXWriter(options.xlsx || {})
+    new XLSXWriter(options.xlsx || {}, options.transform)
 };
