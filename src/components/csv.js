@@ -6,15 +6,15 @@ const defaults = {
 
 export default {
   createReadStream: options => {
-    const csvOptions = Object.assign({}, defaults, options.csv);
-    return csv
-      .parse(csvOptions)
-      .transform(options.transform);
+    const csvOptions = Object.assign({}, defaults, options.csv),
+      stream = csv.parse(csvOptions);
+
+    return options.transform ? stream.transform(options.transform) : stream;
   },
   createWriteStream: options => {
-    const csvOptions = Object.assign({}, defaults, options.csv);
-    return csv
-      .format(csvOptions)
-      .transform(options.transform);
+    const csvOptions = Object.assign({}, defaults, options.csv),
+      stream = csv.format(csvOptions);
+
+    return options.transform ? stream.transform(options.transform) : stream;
   }
 };
