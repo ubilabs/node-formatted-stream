@@ -46,7 +46,7 @@ describe('The formatted stream module', () => {
         ];
 
       expectedKnownFormats.forEach(format => {
-        expect(knownFormats.includes(format)).to.be.true;
+        expect(knownFormats).to.include(format);
       });
     });
   });
