@@ -3,7 +3,8 @@ import {StreamMap} from '../util';
 
 export default {
   createReadStream: options => {
-    const jsonStream = JSONStream.parse(options.json || [true]);
+    const jsonOptions = Object.assign({path: [true]}, options.json),
+      jsonStream = JSONStream.parse(jsonOptions.path);
     return new StreamMap(options.transform, jsonStream);
   },
   createWriteStream: options => {

@@ -63,18 +63,21 @@ Default is `function(data) { return data; }`.
 
 #### options.csv
 
-Type `Object`. An options object which will be passed to the CSV parser. See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
+Type `Object`. An options object which will be passed to the CSV parser.  
+See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
 Default is `{}`.
 
 #### options.json
 
-Type `Array`. An options array which will be passed to the JSON parser. See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
-Default is `[]`.
+Type `Object`. The value of `options.json.path` will be passed to `JSONStream.parse`.  
+See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
+Default is `{path: [true]}`.
 
 #### options.xlsx
 
 Type `Object`. An options object which will be passed to the XLSX parser.
-Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`. See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
+Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`.  
+See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
 Default is `{}`.
 
 
