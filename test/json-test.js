@@ -53,7 +53,9 @@ describe('The JSON component', () => {
 
       let resultBuffer = '';
 
-      jsonStream.on('data', data => resultBuffer += data);
+      jsonStream.on('data', data => {
+        resultBuffer += data;
+      });
       jsonStream.on('end', () => {
         expect(JSON.parse(resultBuffer)).to.deep.equal([object]);
         done();
@@ -72,7 +74,9 @@ describe('The JSON component', () => {
 
       let resultBuffer = '';
 
-      jsonStream.on('data', data => resultBuffer += data);
+      jsonStream.on('data', data => {
+        resultBuffer += data;
+      });
       jsonStream.on('end', () => {
         expect(JSON.parse(resultBuffer)).to.deep.equal([expectedObject]);
         done();

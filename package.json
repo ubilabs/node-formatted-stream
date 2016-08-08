@@ -22,8 +22,12 @@
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
+    "babel-eslint": "^6.1.2",
     "chai": "^3.5.0",
-    "eslint": "^1.6.0",
+    "eslint": "^3.2.2",
     "mocha": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=4"
   }
 }

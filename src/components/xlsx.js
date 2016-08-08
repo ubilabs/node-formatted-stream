@@ -49,13 +49,13 @@ class XLSXParser extends stream.Transform {
 
     headerRow.eachCell((cell, colNum) => {
       headers.push({
-        colNum: colNum,
+        colNum,
         key: cell.value
       });
     });
 
     worksheet.eachRow((row, rowNumber) => {
-      let obj = {};
+      const obj = {};
 
       if (rowNumber === 1) {
         return;
@@ -86,12 +86,13 @@ class XLSXWriter extends stream.Transform {
     this.columns = [];
     this.transform = transform;
 
-    writerWorkbookOptions.forEach(option =>
-      this.workbook[option] = options[option]);
+    writerWorkbookOptions.forEach(option => {
+      this.workbook[option] = options[option];
+    });
   }
 
   _transform(chunk, encoding, done) {
-    let object = {};
+    const object = {};
 
     if (this.transform) {
       chunk = this.transform(chunk);

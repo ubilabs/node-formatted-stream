@@ -42,7 +42,7 @@ function getKnownFormats() {
 function from(format, options = {}) {
   const component = components[format];
   if (!component) {
-    throw new Error('Unsupported format: ' + format);
+    throw new Error(`Unsupported format: ${format}`);
   }
 
   options.transform = options.transform || (data => data);
@@ -60,7 +60,7 @@ function from(format, options = {}) {
 function to(format, options = {}) {
   const component = components[format];
   if (!component) {
-    throw new Error('Unsupported format: ' + format);
+    throw new Error(`Unsupported format: ${format}`);
   }
 
   options.transform = options.transform || (data => data);
