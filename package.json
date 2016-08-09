@@ -1,7 +1,7 @@
 {
   "name": "formatted-stream",
   "version": "0.0.1",
-  "description": "",
+  "description": "Streaming XLSX, CSV, and JSON parser and writer",
   "main": "dist",
   "scripts": {
     "pretest": "npm run lint",
@@ -14,6 +14,16 @@
     "email": "schwalb@ubilabs.net",
     "url": "http://ubilabs.net"
   },
+  "keywords": [
+    "csv",
+    "json",
+    "xlsx",
+    "excel",
+    "stream",
+    "streaming",
+    "parser",
+    "writer"
+  ],
   "license": "",
   "dependencies": {
     "JSONStream": "^1.1.2",
