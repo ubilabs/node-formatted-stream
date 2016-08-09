@@ -126,8 +126,18 @@ class XLSXWriter extends stream.Transform {
 }
 
 export default {
+  /**
+   * Creates a transform stream which parses XLSX files into objects.
+   * @param {Object} options Options for the XLSX parser.
+   * @returns {Object} A transform stream parsing XLSX files into objects.
+   **/
   createReadStream: options =>
     new XLSXParser(options.xlsx || {}, options.transform),
+  /**
+   * Creates a transform stream which parsers objects into XLSX files.
+   * @param {Object} options Options for the XLSX writer.
+   * @returns {Object} A transform stream parsing objects into XLSX files.
+   **/
   createWriteStream: options => {
     const defaults = {sheet: 'Sheet 1'};
     return new XLSXWriter(Object.assign(defaults, options), options.transform);
