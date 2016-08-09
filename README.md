@@ -47,8 +47,7 @@ fs.createReadStream('in.json').pipe(parser);
 ```js
 const parser = formattedStream.from('csv', {
   transform: function(data) { return data; },
-  csv: {headers: false},
-  json: [true]
+  csv: {headers: false}
 });
 ```
 
@@ -65,7 +64,7 @@ Default is `function(data) { return data; }`.
 
 Type `Object`. An options object which will be passed to the CSV parser.  
 See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
-Default is `{}`.
+Default is `{headers: true}`.
 
 #### options.json
 
@@ -76,9 +75,9 @@ Default is `{path: [true]}`.
 #### options.xlsx
 
 Type `Object`. An options object which will be passed to the XLSX parser.
-Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`.  
+Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`  
 See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
-Default is `{}`.
+Default is `{sheet: 'Sheet 1'}`.
 
 
 ### .to(format, options)
@@ -106,16 +105,19 @@ Default is `function(data) { return data; }`.
 
 #### options.csv
 
-Type `Object`. An options object which will be passed to the CSV writer. See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
+Type `Object`. An options object which will be passed to the CSV writer.  
+See [fast-csv](https://www.npmjs.com/package/fast-csv) for more information.  
 Default is `{}`.
 
 #### options.json
 
-Type `Object`. An options object which will be passed to the JSON writer. See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
+Type `Object`. An options object which will be passed to the JSON writer.  
+See [JSONStream](https://www.npmjs.com/package/JSONStream) for more information.  
 Default is `{}`.
 
 #### options.xlsx
 
 Type `Object`. An options object which will be passed to the XLSX writer.
-Assign a function to `options.xlsx.headerAccessor` in order to transform all header fields according to the output of the function. Set the XLSX worksheet by defining `options.xlsx.sheet`. Default: `Sheet 1`. See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
+Assign a function to `options.xlsx.headerAccessor` in order to transform all header fields according to the output of the function. Set the XLSX worksheet by defining `options.xlsx.sheet`. If no sheet is defined, the XLSX parser will write all sheets in the document to the CSV file. Default: `undefined`.  
+See [ExcelJS](https://www.npmjs.com/package/exceljs) for more options.  
 Default is `{}`.
