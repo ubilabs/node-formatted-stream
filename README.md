@@ -1,4 +1,4 @@
-# formatted-stream
+# formatted-stream [![Build Status](https://travis-ci.org/ubilabs/node-formatted-stream.svg?branch=master)](https://travis-ci.org/ubilabs/node-formatted-stream)
 
 A universal wrapper around file format parsers.  
 Currently supports in- and output in CSV, JSON, and XLSX format.
