@@ -37,17 +37,16 @@ describe('The formatted stream module', () => {
   });
 
   describe('.getKnownFormats', () => {
-    it('should list \'csv\', \'xlsx\', and \'json\'', () => {
-      const knownFormats = index.getKnownFormats(),
-        expectedKnownFormats = [
-          'csv',
-          'xlsx',
-          'json'
-        ];
+    it('should list \'csv\'', () => {
+      expect(index.getKnownFormats()).to.include('csv');
+    });
 
-      expectedKnownFormats.forEach(format => {
-        expect(knownFormats).to.include(format);
-      });
+    it('should list \'json\'', () => {
+      expect(index.getKnownFormats()).to.include('json');
+    });
+
+    it('should list \'xlsx\'', () => {
+      expect(index.getKnownFormats()).to.include('xlsx');
     });
   });
 
