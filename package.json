@@ -2,12 +2,15 @@
   "name": "formatted-stream",
   "version": "0.0.1",
   "description": "Streaming XLSX, CSV, and JSON parser and writer",
-  "main": "dist",
+  "main": "dist/index.js",
   "scripts": {
-    "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-register",
     "build": "babel ./src --out-dir ./dist",
-    "lint": "eslint ./src ./test"
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -p angular",
+    "lint": "eslint ./src ./test",
+    "prepublish": "npm run test && npm run build",
+    "pretest": "npm run lint",
+    "release": "release-it",
+    "test": "mocha --compilers js:babel-register"
   },
   "author": {
     "name": "Keno Schwalb",
@@ -41,7 +44,8 @@
     "babel-register": "^6.11.6",
     "chai": "^3.5.0",
     "eslint": "^3.2.2",
-    "mocha": "^3.0.0"
+    "mocha": "^3.0.0",
+    "release-it": "^2.4.3"
   },
   "engines": {
     "node": ">=4"
