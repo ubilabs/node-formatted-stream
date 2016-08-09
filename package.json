@@ -1,6 +1,6 @@
 {
   "name": "formatted-stream",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Streaming XLSX, CSV, and JSON parser and writer",
   "main": "dist/index.js",
   "scripts": {
