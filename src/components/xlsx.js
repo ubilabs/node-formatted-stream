@@ -80,7 +80,7 @@ class XLSXWriter extends stream.Transform {
     super({objectMode: true});
 
     this.workbook = new Excel.Workbook();
-    this.worksheet = this.workbook.addWorksheet(options.sheet || 'Sheet 1');
+    this.worksheet = this.workbook.addWorksheet(options.sheet);
     this.headerAccessor = options.headerAccessor || (key => key);
     this.rows = [];
     this.columns = [];
@@ -128,6 +128,8 @@ class XLSXWriter extends stream.Transform {
 export default {
   createReadStream: options =>
     new XLSXParser(options.xlsx || {}, options.transform),
-  createWriteStream: options =>
-    new XLSXWriter(options.xlsx || {}, options.transform)
+  createWriteStream: options => {
+    const defaults = {sheet: 'Sheet 1'};
+    return new XLSXWriter(Object.assign(defaults, options), options.transform);
+  }
 };
