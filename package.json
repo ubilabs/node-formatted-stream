@@ -9,7 +9,7 @@
     "lint": "eslint ./src ./test",
     "prepublish": "rm -rf dist/ && npm run build",
     "pretest": "npm run lint",
-    "test": "mocha --compilers js:babel-register",
+    "test": "snyk test && mocha --compilers js:babel-register",
     "release": "release-it"
   },
   "author": {
@@ -31,7 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "JSONStream": "^1.1.2",
-    "exceljs": "0.2.11",
+    "exceljs": "^0.2.13",
     "fast-csv": "^2.0.0"
   },
   "devDependencies": {
@@ -43,7 +43,8 @@
     "conventional-changelog-cli": "^1.2.0",
     "eslint": "^3.2.2",
     "mocha": "^3.0.0",
-    "release-it": "^2.4.3"
+    "release-it": "^2.4.3",
+    "snyk": "^1.22.1"
   },
   "engines": {
     "node": ">=4"
